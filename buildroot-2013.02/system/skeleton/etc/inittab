@@ -14,23 +14,24 @@
 # process   == program to run
 
 # Startup the system
-null::sysinit:/bin/mount -t proc proc /proc
-null::sysinit:/bin/mount -o remount,rw / # REMOUNT_ROOTFS_RW
-null::sysinit:/bin/mkdir -p /dev/pts
-null::sysinit:/bin/mkdir -p /dev/shm
-null::sysinit:/bin/mount -a
-null::sysinit:/bin/hostname -F /etc/hostname
+console::sysinit:/bin/mount -t proc proc /proc
+console::sysinit:/bin/mount -o remount,rw / # REMOUNT_ROOTFS_RW
+console::sysinit:/bin/mkdir -p /dev/pts
+console::sysinit:/bin/mkdir -p /dev/shm
+console::sysinit:/bin/mount -a
+console::sysinit:/bin/hostname -F /etc/hostname
 # now run any rc scripts
 ::sysinit:/etc/init.d/rcS
 
 # Put a getty on the serial port
 #ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100 # GENERIC_SERIAL
+console::respawn:-/bin/sh
 
 # Stuff to do for the 3-finger salute
 ::ctrlaltdel:/sbin/reboot
 
 # Stuff to do before rebooting
-null::shutdown:/etc/init.d/rcK
-null::shutdown:/bin/umount -a -r
-null::shutdown:/sbin/swapoff -a
+console::shutdown:/etc/init.d/rcK
+console::shutdown:/bin/umount -a -r
+console::shutdown:/sbin/swapoff -a
 

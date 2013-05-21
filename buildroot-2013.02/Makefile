@@ -70,7 +70,7 @@ empty:=
 space:=$(empty) $(empty)
 
 ifneq ("$(origin O)", "command line")
-O:=output
+O:=$(TOPDIR)/../output
 CONFIG_DIR:=$(TOPDIR)
 NEED_WRAPPER=
 else
